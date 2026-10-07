@@ -35,22 +35,22 @@ Legenda: `[ ]` da fare · `[~]` in corso · `[x]` fatto · ⚠️ dipende da un'
 
 ## Fase 2 — Progetti e vista lista
 
-- [ ] **T2.1** Schema Prisma: `Project`, `Task` (enum `TaskType`, `status`, `sortKey`, `version`), `Dependency` (enum `DependencyType`) + migrazione.
-- [ ] **T2.2** `packages/shared`: utility date di calendario (`parseDate`, `addDays`, `diffDays`, `isWeekend`, `addWorkingDays`, `workingDaysBetween`) con test esaustivi (cambi mese/anno, bisestili).
-- [ ] **T2.3** `packages/shared`: utility fractional indexing per `sortKey` (generazione tra due chiavi, in testa, in coda) con test.
-- [ ] **T2.4** Schemi zod per progetto e task (create, update con `version`, output).
-- [ ] **T2.5** Guard `requireProjectRole(projectId, minRole)` + API progetti: `GET /workspaces/:id/projects`, `POST /workspaces/:id/projects`, `PATCH /projects/:id`, archiviazione. Test autorizzazione (non membro, VIEWER).
-- [ ] **T2.6** API `GET /projects/:id`: progetto + tutti i task + dipendenze in una risposta.
-- [ ] **T2.7** API task: `POST /projects/:id/tasks`, `PATCH /tasks/:id` (con controllo `version` → `409`), `DELETE /tasks/:id` (cascade su sottotask e dipendenze). Validazioni: `endDate ≥ startDate`, milestone a durata zero, parent nello stesso progetto.
-- [ ] **T2.8** API `POST /tasks/:id/move`: cambio parent e/o `sortKey`, rifiuto se il nuovo parent è un discendente.
-- [ ] **T2.9** Web: pagina progetto con query `project`, mutation con optimistic update e gestione `409`.
-- [ ] **T2.10** Web: modello righe — da lista piatta di task ad albero → lista visibile appiattita con profondità, rispettando i rami collassati (modulo puro + test).
-- [ ] **T2.11** Web: griglia virtualizzata (TanStack Virtual) con colonne nome, inizio, fine, durata, avanzamento, assegnatario; indentazione per livello; expand/collapse.
-- [ ] **T2.12** Web: editing inline delle celle (testo, date picker, numero %, select assegnatario), con conferma su Invio / annulla su Esc.
-- [ ] **T2.13** Web: aggiunta task/gruppo/milestone, eliminazione con conferma, indent/outdent (Tab / Shift+Tab).
+- [x] **T2.1** Schema Prisma: `Project`, `Task` (enum `TaskType`, `status`, `sortKey`, `version`), `Dependency` (enum `DependencyType`) + migrazione.
+- [x] **T2.2** `packages/shared`: utility date di calendario (`parseDate`, `addDays`, `diffDays`, `isWeekend`, `addWorkingDays`, `workingDaysBetween`) con test esaustivi (cambi mese/anno, bisestili).
+- [x] **T2.3** `packages/shared`: utility fractional indexing per `sortKey` (generazione tra due chiavi, in testa, in coda) con test.
+- [x] **T2.4** Schemi zod per progetto e task (create, update con `version`, output).
+- [x] **T2.5** Guard `requireProjectRole(projectId, minRole)` + API progetti: `GET /workspaces/:id/projects`, `POST /workspaces/:id/projects`, `PATCH /projects/:id`, archiviazione. Test autorizzazione (non membro, VIEWER).
+- [x] **T2.6** API `GET /projects/:id`: progetto + tutti i task + dipendenze in una risposta.
+- [x] **T2.7** API task: `POST /projects/:id/tasks`, `PATCH /tasks/:id` (con controllo `version` → `409`), `DELETE /tasks/:id` (cascade su sottotask e dipendenze). Validazioni: `endDate ≥ startDate`, milestone a durata zero, parent nello stesso progetto.
+- [x] **T2.8** API `POST /tasks/:id/move`: cambio parent e/o `sortKey`, rifiuto se il nuovo parent è un discendente.
+- [x] **T2.9** Web: pagina progetto con query `project`, mutation con optimistic update e gestione `409`.
+- [x] **T2.10** Web: modello righe — da lista piatta di task ad albero → lista visibile appiattita con profondità, rispettando i rami collassati (modulo puro + test).
+- [~] **T2.11** Web: griglia virtualizzata (TanStack Virtual) con colonne nome, inizio, fine, durata, avanzamento, assegnatario; indentazione per livello; expand/collapse. — tabella fatta, virtualizzazione rimandata a T3.4
+- [x] **T2.12** Web: editing inline delle celle (testo, date picker, numero %, select assegnatario), con conferma su Invio / annulla su Esc.
+- [x] **T2.13** Web: aggiunta task/gruppo/milestone, eliminazione con conferma, indent/outdent (Tab / Shift+Tab).
 - [ ] **T2.14** Web: riordino righe con drag (dnd-kit) → `move`.
-- [ ] **T2.15** Web: CRUD progetti dalla sidebar (crea, rinomina, colore, archivia).
-- [ ] **T2.16** Web: modalità sola lettura per VIEWER (controlli disabilitati; il server resta l'unico garante).
+- [~] **T2.15** Web: CRUD progetti dalla sidebar (crea, rinomina, colore, archivia). — crea/rinomina/archivia fatti (dalla pagina workspace e progetto), colore automatico; cambio colore da UI da fare
+- [x] **T2.16** Web: modalità sola lettura per VIEWER (controlli disabilitati; il server resta l'unico garante).
 
 ## Fase 3 — Timeline Gantt in sola lettura
 

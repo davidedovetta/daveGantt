@@ -17,3 +17,8 @@ export const createWorkspaceInputSchema = z.object({
 export type Role = z.infer<typeof roleSchema>;
 export type Workspace = z.infer<typeof workspaceSchema>;
 export type CreateWorkspaceInput = z.infer<typeof createWorkspaceInputSchema>;
+
+const ROLE_RANK: Record<Role, number> = { VIEWER: 1, EDITOR: 2, OWNER: 3 };
+
+/** Role hierarchy OWNER > EDITOR > VIEWER (UI hints; the API enforces permissions itself). */
+export const hasMinRole = (role: Role, minRole: Role) => ROLE_RANK[role] >= ROLE_RANK[minRole];

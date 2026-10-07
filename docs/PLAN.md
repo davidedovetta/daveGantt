@@ -81,7 +81,7 @@ Session         id, userId, expiresAt, createdAt
 Workspace       id, name, createdAt
 WorkspaceMember workspaceId, userId, role (OWNER|EDITOR|VIEWER)   PK(workspaceId, userId)
 Project         id, workspaceId, name, color, archivedAt, createdAt, updatedAt
-Task            id, projectId, parentId?, type (GROUP|TASK|MILESTONE), name, description,
+Task            id, projectId, parentId?, type (TASK|MILESTONE) — un task con figli è un riepilogo, name, description,
                 startDate (DATE), endDate (DATE, inclusiva), progress (0-100),
                 status, color?, assigneeId?, sortKey (fractional index), version,
                 createdById, createdAt, updatedAt

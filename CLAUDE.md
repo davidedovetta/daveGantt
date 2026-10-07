@@ -5,7 +5,7 @@ Scope, architettura, modello dati, fasi e assunzioni aperte: **`docs/PLAN.md`** 
 
 ## Stato
 
-Fasi 0 e 1 completate: scheletro, autenticazione (sessioni + cookie), workspace con ruoli, login/registrazione e layout nel web. Condivisione dei workspace anticipata dalla Fase 6 (T6.1–T6.2: membri, ruoli, uscita, almeno un OWNER garantito con lock sulla riga `Workspace`). Prossima: Fase 2 (progetti e vista lista).
+Fasi 0 e 1 completate: scheletro, autenticazione (sessioni + cookie), workspace con ruoli, login/registrazione e layout nel web. Condivisione dei workspace (T6.1–T6.2) e Fase 2 (progetti, tabella task gerarchica modificabile) completate, salvo riordino con drag (T2.14). Prossima: Fase 3 (timeline Gantt).
 Aggiorna questa sezione e "Comandi" quando cambiano.
 
 Backlog operativo: **`docs/TASKS.md`**. Si lavora un task alla volta, nell'ordine indicato: segna `[~]` quando inizi, `[x]` solo quando test, typecheck e lint sono verdi e il comportamento è verificato. I task con ⚠️ richiedono conferma dell'utente prima di procedere.
@@ -63,7 +63,8 @@ Prima di dichiarare finito un task: `pnpm typecheck && pnpm lint && pnpm test` d
 - `endDate` è **inclusiva**. Una milestone ha `startDate === endDate` e durata zero.
 - Durate e lag sono in **giorni lavorativi** (sab/dom esclusi nell'MVP).
 - Il **motore di scheduling** vive solo in `packages/shared/scheduling`, è composto da funzioni pure senza I/O ed è l'unica implementazione: il client lo usa per l'anteprima, il server per il risultato autorevole. Non duplicare logica di scheduling in web o api.
-- Le date dei task `GROUP` sono derivate dai figli (rollup); non si modificano direttamente.
+- Non esiste un tipo `GROUP`: un task con sottotask è un riepilogo, con date e avanzamento derivati dai figli (`rollup` in `packages/shared/scheduling`); l'API rifiuta modifiche dirette a date/avanzamento dei riepiloghi (`SUMMARY_READ_ONLY`).
+- `sortKey` (fractional indexing) si confronta byte per byte in JS (`compareKeys`): non usare `ORDER BY sortKey`, la collation di Postgres lo ordina male.
 - Le dipendenze non possono formare cicli: validare lato server prima di salvare.
 - Le regole di ripianificazione e le altre assunzioni aperte sono in `docs/PLAN.md` §7: non cambiarle né inventarne di nuove senza chiedere.
 

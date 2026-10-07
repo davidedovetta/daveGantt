@@ -12,6 +12,8 @@ import { AppError, registerErrorHandling } from './errors.js';
 import { authRoutes } from './routes/auth.js';
 import { healthRoutes } from './routes/health.js';
 import { memberRoutes } from './routes/members.js';
+import { projectRoutes } from './routes/projects.js';
+import { taskRoutes } from './routes/tasks.js';
 import { workspaceRoutes } from './routes/workspaces.js';
 
 declare module 'fastify' {
@@ -61,6 +63,8 @@ export async function buildApp({
   await app.register(authRoutes);
   await app.register(workspaceRoutes);
   await app.register(memberRoutes);
+  await app.register(projectRoutes);
+  await app.register(taskRoutes);
 
   return app;
 }
