@@ -1,4 +1,4 @@
-import type { FastifyInstance } from 'fastify';
+import type { FastifyInstance, FastifyReply } from 'fastify';
 import { hasZodFastifySchemaValidationErrors } from 'fastify-type-provider-zod';
 
 export class AppError extends Error {
@@ -35,8 +35,8 @@ export function registerErrorHandling(app: FastifyInstance) {
     request.log.error({ err }, 'unhandled error');
     return reply.code(500).send({ error: { code: 'INTERNAL_ERROR', message: 'Errore interno' } });
   });
+}
 
-  app.setNotFoundHandler((_request, reply) =>
-    reply.code(404).send({ error: { code: 'NOT_FOUND', message: 'Risorsa non trovata' } }),
-  );
+export function sendNotFound(reply: FastifyReply) {
+  return reply.code(404).send({ error: { code: 'NOT_FOUND', message: 'Risorsa non trovata' } });
 }

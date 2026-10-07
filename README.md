@@ -83,6 +83,38 @@ Per provare da solo con due utenti usa una finestra normale e una anonima del br
 - **Usa `localhost`, non `127.0.0.1`**: Vite risponde solo su `localhost`.
 - **`Cannot find module './generated/prisma/client.js'`** → esegui `pnpm db:generate`.
 
+## Pubblicazione online (Render)
+
+Il repository contiene un `Dockerfile` (un solo servizio: API su `/api` e interfaccia sullo
+stesso indirizzo) e un `render.yaml` che descrive servizio e database.
+
+1. Crea un account su https://render.com (puoi entrare con GitHub).
+2. **New → Blueprint**, autorizza l'accesso al repository `davegantt` e selezionalo.
+3. Render legge `render.yaml` e propone: servizio web `davegantt` + database PostgreSQL
+   `davegantt-db`, regione Francoforte. Clicca **Apply**.
+4. Al termine del primo build (alcuni minuti) l'app è su `https://davegantt.onrender.com`
+   (o un nome simile mostrato da Render). Le migrazioni del database partono da sole.
+5. Condividi il link: i colleghi si registrano e li aggiungi con **Condividi**.
+
+Ogni push su `main` ripubblica l'app automaticamente.
+
+**Piani gratuiti, da sapere:**
+
+- il servizio web gratuito si addormenta dopo 15 minuti senza visite: la prima apertura
+  successiva impiega circa un minuto;
+- il database gratuito **scade dopo 30 giorni** e i dati vengono cancellati. Prima di
+  inserire dati veri, in Render passa il database a un piano a pagamento (e il servizio a
+  "Starter" se vuoi evitare l'attesa iniziale).
+
+Per provare l'immagine di produzione in locale:
+
+```bash
+docker build -t davegantt .
+docker run --rm -p 3002:3001 -e COOKIE_SECURE=false \
+  -e DATABASE_URL=postgresql://davegantt:davegantt@host.docker.internal:5432/davegantt \
+  davegantt
+```
+
 ## Struttura
 
 ```

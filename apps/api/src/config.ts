@@ -10,6 +10,8 @@ const configSchema = z.object({
   COOKIE_SECURE: z.stringbool().optional(),
   // Set to true behind a reverse proxy so request.ip (used by rate limiting) is the client IP.
   TRUST_PROXY: z.stringbool().default(false),
+  // Absolute path of the built web app (apps/web/dist) to serve from the API in production.
+  WEB_DIST_DIR: z.string().optional(),
 });
 
 export type Config = z.infer<typeof configSchema> & { cookieSecure: boolean };

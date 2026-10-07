@@ -44,7 +44,8 @@ pnpm db:migrate          # prisma migrate dev (nuove migrazioni)
 ```
 
 - Vite ascolta su `localhost` (IPv6 `::1`): usare `http://localhost:5173`, non `127.0.0.1`.
-- Le route API non hanno prefisso: il prefisso `/api` esiste solo nel proxy di Vite.
+- Le route API sono montate sotto `/api` (`apiPrefix` in `buildApp`); nei test `buildTestApp()` le monta senza prefisso, quindi i test usano `/auth/login` ecc. In produzione lo stesso processo serve anche `apps/web/dist` (`WEB_DIST_DIR`) con fallback SPA.
+- Deploy: `Dockerfile` + `render.yaml` (Render, Francoforte, deploy automatico da `main`). Le migrazioni girano all'avvio del container (`prisma migrate deploy`). CSP via `@fastify/helmet`: niente script inline o risorse esterne senza aggiornarla.
 - In sviluppo il cookie di sessione non è `Secure` (Safari lo rifiuta su `http://localhost`); in produzione sì. Override con `COOKIE_SECURE`.
 
 ### Pattern già stabiliti (riusarli)

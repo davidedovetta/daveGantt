@@ -9,6 +9,8 @@ const app = await buildApp({
   db,
   cookieSecure: config.cookieSecure,
   trustProxy: config.TRUST_PROXY,
+  apiPrefix: '/api',
+  webDistDir: config.WEB_DIST_DIR,
   logger:
     config.NODE_ENV === 'development'
       ? { level: config.LOG_LEVEL, transport: { target: 'pino-pretty' } }

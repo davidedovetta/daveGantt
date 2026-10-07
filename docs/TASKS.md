@@ -100,6 +100,6 @@ Legenda: `[ ]` da fare · `[~]` in corso · `[x]` fatto · ⚠️ dipende da un'
 - [ ] **T7.1** Scorciatoie tastiera (nuovo task, elimina, indent/outdent, navigazione celle, zoom) e relativa legenda.
 - [ ] **T7.2** Stati vuoti, loading e messaggi di errore coerenti in tutta l'app.
 - [ ] **T7.3** Accessibilità base: navigazione da tastiera nella griglia, focus visibile, contrasto, label sui controlli.
-- [ ] **T7.4** Revisione sicurezza: header HTTP (helmet), CORS, scadenza e rotazione sessioni, audit dipendenze npm.
+- [~] **T7.4** Revisione sicurezza: header HTTP (helmet), CORS, scadenza e rotazione sessioni, audit dipendenze npm. — helmet/CSP fatti; CORS non necessario (stessa origine)
 - [ ] **T7.5** Ripetere la misura prestazioni con 2.000 task e dipendenze; ottimizzare il rendering delle frecce se necessario.
-- [ ] **T7.6** ⚠️ Decidere il target di deploy (assunzione 5) e preparare Dockerfile/configurazione di conseguenza.
+- [x] **T7.6** ⚠️ Decidere il target di deploy (assunzione 5) e preparare Dockerfile/configurazione di conseguenza. — Render (Docker + Postgres gestito), deciso il 2026-10-07
