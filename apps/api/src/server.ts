@@ -7,6 +7,7 @@ const db = createDb(config.DATABASE_URL);
 
 const app = await buildApp({
   db,
+  cookieSecure: config.cookieSecure,
   logger:
     config.NODE_ENV === 'development'
       ? { level: config.LOG_LEVEL, transport: { target: 'pino-pretty' } }

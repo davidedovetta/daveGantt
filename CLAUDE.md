@@ -5,7 +5,7 @@ Scope, architettura, modello dati, fasi e assunzioni aperte: **`docs/PLAN.md`** 
 
 ## Stato
 
-Fase 0 (scheletro) completata: monorepo, Postgres in docker, API Fastify con `/health`, web Vite che la interroga. Prossima: Fase 1 (autenticazione e workspace).
+Fasi 0 e 1 completate: scheletro, autenticazione (sessioni + cookie), workspace con ruoli, login/registrazione e layout nel web. Prossima: Fase 2 (progetti e vista lista).
 Aggiorna questa sezione e "Comandi" quando cambiano.
 
 Backlog operativo: **`docs/TASKS.md`**. Si lavora un task alla volta, nell'ordine indicato: segna `[~]` quando inizi, `[x]` solo quando test, typecheck e lint sono verdi e il comportamento è verificato. I task con ⚠️ richiedono conferma dell'utente prima di procedere.
@@ -43,6 +43,14 @@ pnpm db:migrate          # prisma migrate dev
 
 - Vite ascolta su `localhost` (IPv6 `::1`): usare `http://localhost:5173`, non `127.0.0.1`.
 - Le route API non hanno prefisso: il prefisso `/api` esiste solo nel proxy di Vite.
+- In sviluppo il cookie di sessione non è `Secure` (Safari lo rifiuta su `http://localhost`); in produzione sì. Override con `COOKIE_SECURE`.
+
+### Pattern già stabiliti (riusarli)
+
+- Errori API: lanciare `AppError` / `unauthorized()` / `forbidden()` / `notFound()` da `apps/api/src/errors.ts`; il formato di uscita è sempre `{ error: { code, message } }` (`apiErrorSchema`), messaggi in italiano.
+- Utente corrente: `requireUser(request)`; permessi: `requireWorkspaceRole(db, userId, workspaceId, minRole)` in `apps/api/src/authz.ts` (non membro → 404, ruolo insufficiente → 403).
+- Test API: `buildTestApp()`, `resetDb()` in `beforeEach`, `registerUser()` per ottenere cookie autenticati, `csrfHeaders` per le richieste mutanti (`apps/api/test/helpers.ts`).
+- Web: chiamate solo tramite `apiRequest()` (`apps/web/src/lib/api.ts`, aggiunge l'header CSRF e converte gli errori in `ApiError`); hook TanStack Query per feature in `apps/web/src/features/<feature>/api.ts`. Un 401 su qualsiasi query azzera l'utente e riporta al login.
 - I test API usano il database `davegantt_test` (`TEST_DATABASE_URL`); il global setup applica le migrazioni con `prisma migrate deploy` e rifiuta database il cui nome non termina con `_test`. Non usare `prisma migrate reset` dai tool: Prisma lo blocca quando invocato da un agente AI e richiede il consenso esplicito dell'utente.
 
 Prima di dichiarare finito un task: `pnpm typecheck && pnpm lint && pnpm test` devono passare.

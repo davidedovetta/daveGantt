@@ -5,11 +5,12 @@ Questo documento è il riferimento per scope, architettura e fasi. Le regole ope
 
 ## 1. Decisioni prese
 
-| Tema   | Decisione                                                                                        |
-| ------ | ------------------------------------------------------------------------------------------------ |
-| Stack  | Monorepo pnpm: React + TypeScript + Vite (web), Node + Fastify (api), PostgreSQL + Prisma        |
-| Utenti | Multi-utente: login, workspace condivisi, ruoli OWNER / EDITOR / VIEWER, assegnatari sui task    |
-| MVP    | Gantt base (task, sottotask, milestone, dipendenze, drag & drop) + vista lista/tabella editabile |
+| Tema               | Decisione                                                                                                                                  |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| Stack              | Monorepo pnpm: React + TypeScript + Vite (web), Node + Fastify (api), PostgreSQL + Prisma                                                  |
+| Utenti             | Multi-utente: login, workspace condivisi, ruoli OWNER / EDITOR / VIEWER, assegnatari sui task                                              |
+| MVP                | Gantt base (task, sottotask, milestone, dipendenze, drag & drop) + vista lista/tabella editabile                                           |
+| Aggiornamento dati | Nessun realtime nell'MVP: TanStack Query rilegge i dati al ritorno sulla scheda e ogni 15–30 s sulla vista progetto (deciso il 2026-10-07) |
 
 ## 2. Scope MVP
 

@@ -1,4 +1,28 @@
 import { createBrowserRouter } from 'react-router';
-import { HomePage } from './pages/HomePage';
+import { RequireAuth, RequireGuest } from './features/auth/guards';
+import { LoginPage } from './features/auth/LoginPage';
+import { RegisterPage } from './features/auth/RegisterPage';
+import { AppLayout } from './features/workspaces/AppLayout';
+import { WorkspaceIndexRedirect, WorkspacePage } from './features/workspaces/WorkspacePages';
 
-export const router = createBrowserRouter([{ path: '/', element: <HomePage /> }]);
+export const router = createBrowserRouter([
+  {
+    element: <RequireGuest />,
+    children: [
+      { path: '/login', element: <LoginPage /> },
+      { path: '/register', element: <RegisterPage /> },
+    ],
+  },
+  {
+    element: <RequireAuth />,
+    children: [
+      {
+        element: <AppLayout />,
+        children: [
+          { path: '/', element: <WorkspaceIndexRedirect /> },
+          { path: '/w/:workspaceId', element: <WorkspacePage /> },
+        ],
+      },
+    ],
+  },
+]);

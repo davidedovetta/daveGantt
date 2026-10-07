@@ -22,16 +22,16 @@ Legenda: `[ ]` da fare · `[~]` in corso · `[x]` fatto · ⚠️ dipende da un'
 
 ## Fase 1 — Autenticazione e workspace
 
-- [ ] **T1.1** Schema Prisma: `User`, `Session`, `Workspace`, `WorkspaceMember` (enum `Role`) + migrazione.
-- [ ] **T1.2** Schemi zod condivisi per auth (`registerInput`, `loginInput`, `meOutput`).
-- [ ] **T1.3** Servizio password (argon2id) e servizio sessioni (crea, valida, revoca, scadenza).
-- [ ] **T1.4** Plugin Fastify di autenticazione: lettura cookie, `request.user`, decorator `requireAuth`; header anti-CSRF obbligatorio sulle richieste mutanti.
-- [ ] **T1.5** Route `POST /auth/register` (crea utente + workspace personale con ruolo OWNER), `POST /auth/login`, `POST /auth/logout`, `GET /auth/me`. Test: casi felici, email duplicata, credenziali errate, sessione scaduta.
-- [ ] **T1.6** Rate limiting su `/auth/login` e `/auth/register`.
-- [ ] **T1.7** Guard di autorizzazione centralizzato: `requireWorkspaceRole(workspaceId, minRole)` e `requireProjectRole(projectId, minRole)`. Test unit sulla gerarchia dei ruoli.
-- [ ] **T1.8** Route `GET /workspaces`, `POST /workspaces`. Test: un utente vede solo i propri workspace.
-- [ ] **T1.9** Web: client API (fetch wrapper con header CSRF e gestione errori), pagine Login e Registrazione, route protette, logout, query `me`.
-- [ ] **T1.10** Web: layout applicativo (sidebar con workspace e progetti, header utente), selettore workspace.
+- [x] **T1.1** Schema Prisma: `User`, `Session`, `Workspace`, `WorkspaceMember` (enum `Role`) + migrazione.
+- [x] **T1.2** Schemi zod condivisi per auth (`registerInput`, `loginInput`, `meOutput`).
+- [x] **T1.3** Servizio password (argon2id) e servizio sessioni (crea, valida, revoca, scadenza).
+- [x] **T1.4** Plugin Fastify di autenticazione: lettura cookie, `request.user`, decorator `requireAuth`; header anti-CSRF obbligatorio sulle richieste mutanti.
+- [x] **T1.5** Route `POST /auth/register` (crea utente + workspace personale con ruolo OWNER), `POST /auth/login`, `POST /auth/logout`, `GET /auth/me`. Test: casi felici, email duplicata, credenziali errate, sessione scaduta.
+- [x] **T1.6** Rate limiting su `/auth/login` e `/auth/register`.
+- [x] **T1.7** Guard di autorizzazione centralizzato: `requireWorkspaceRole(workspaceId, minRole)` Test unit sulla gerarchia dei ruoli. (`requireProjectRole` spostato in T2.5: serve il modello `Project`.)
+- [x] **T1.8** Route `GET /workspaces`, `POST /workspaces`. Test: un utente vede solo i propri workspace.
+- [x] **T1.9** Web: client API (fetch wrapper con header CSRF e gestione errori), pagine Login e Registrazione, route protette, logout, query `me`.
+- [x] **T1.10** Web: layout applicativo (sidebar con workspace e progetti, header utente), selettore workspace.
 
 ## Fase 2 — Progetti e vista lista
 
@@ -39,7 +39,7 @@ Legenda: `[ ]` da fare · `[~]` in corso · `[x]` fatto · ⚠️ dipende da un'
 - [ ] **T2.2** `packages/shared`: utility date di calendario (`parseDate`, `addDays`, `diffDays`, `isWeekend`, `addWorkingDays`, `workingDaysBetween`) con test esaustivi (cambi mese/anno, bisestili).
 - [ ] **T2.3** `packages/shared`: utility fractional indexing per `sortKey` (generazione tra due chiavi, in testa, in coda) con test.
 - [ ] **T2.4** Schemi zod per progetto e task (create, update con `version`, output).
-- [ ] **T2.5** API progetti: `GET /workspaces/:id/projects`, `POST /workspaces/:id/projects`, `PATCH /projects/:id`, archiviazione. Test autorizzazione (non membro, VIEWER).
+- [ ] **T2.5** Guard `requireProjectRole(projectId, minRole)` + API progetti: `GET /workspaces/:id/projects`, `POST /workspaces/:id/projects`, `PATCH /projects/:id`, archiviazione. Test autorizzazione (non membro, VIEWER).
 - [ ] **T2.6** API `GET /projects/:id`: progetto + tutti i task + dipendenze in una risposta.
 - [ ] **T2.7** API task: `POST /projects/:id/tasks`, `PATCH /tasks/:id` (con controllo `version` → `409`), `DELETE /tasks/:id` (cascade su sottotask e dipendenze). Validazioni: `endDate ≥ startDate`, milestone a durata zero, parent nello stesso progetto.
 - [ ] **T2.8** API `POST /tasks/:id/move`: cambio parent e/o `sortKey`, rifiuto se il nuovo parent è un discendente.

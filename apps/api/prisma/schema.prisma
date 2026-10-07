@@ -6,3 +6,51 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+enum Role {
+  OWNER
+  EDITOR
+  VIEWER
+}
+
+model User {
+  id           String            @id @default(uuid()) @db.Uuid
+  email        String            @unique
+  name         String
+  passwordHash String
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @updatedAt
+  sessions     Session[]
+  memberships  WorkspaceMember[]
+}
+
+/// `id` is the SHA-256 hash of the session token; the raw token only lives in the cookie.
+model Session {
+  id        String   @id
+  userId    String   @db.Uuid
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}
+
+model Workspace {
+  id        String            @id @default(uuid()) @db.Uuid
+  name      String
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+  members   WorkspaceMember[]
+}
+
+model WorkspaceMember {
+  workspaceId String    @db.Uuid
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  userId      String    @db.Uuid
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role        Role
+  createdAt   DateTime  @default(now())
+
+  @@id([workspaceId, userId])
+  @@index([userId])
+}
