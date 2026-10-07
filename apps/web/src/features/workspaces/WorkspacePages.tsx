@@ -1,6 +1,8 @@
+import { useState } from 'react';
 import { Navigate, useParams } from 'react-router';
-import { FullPageMessage } from '../../components/ui';
+import { Button, FullPageMessage } from '../../components/ui';
 import { useWorkspaces } from './api';
+import { ShareDialog } from './ShareDialog';
 
 /** `/` → first workspace of the user. */
 export function WorkspaceIndexRedirect() {
@@ -14,6 +16,7 @@ export function WorkspaceIndexRedirect() {
 export function WorkspacePage() {
   const { workspaceId } = useParams();
   const workspaces = useWorkspaces();
+  const [sharing, setSharing] = useState(false);
   const workspace = workspaces.data?.find((ws) => ws.id === workspaceId);
 
   if (workspaces.isPending) return <FullPageMessage>Caricamento…</FullPageMessage>;
@@ -21,8 +24,12 @@ export function WorkspacePage() {
 
   return (
     <div className="p-8">
-      <h1 className="text-2xl font-semibold">{workspace.name}</h1>
+      <div className="flex items-center justify-between gap-4">
+        <h1 className="text-2xl font-semibold">{workspace.name}</h1>
+        <Button onClick={() => setSharing(true)}>Condividi</Button>
+      </div>
       <p className="mt-2 text-sm text-slate-500">Qui compariranno i progetti del workspace.</p>
+      <ShareDialog workspace={workspace} open={sharing} onClose={() => setSharing(false)} />
     </div>
   );
 }

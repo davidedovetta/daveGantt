@@ -1,13 +1,13 @@
 import { z } from 'zod';
 
-const email = z
+export const emailSchema = z
   .string()
   .trim()
   .toLowerCase()
   .pipe(z.email({ message: 'Email non valida' }).max(254));
 
 export const registerInputSchema = z.object({
-  email,
+  email: emailSchema,
   name: z.string().trim().min(1, 'Il nome è obbligatorio').max(100),
   password: z
     .string()
@@ -16,7 +16,7 @@ export const registerInputSchema = z.object({
 });
 
 export const loginInputSchema = z.object({
-  email,
+  email: emailSchema,
   password: z.string().min(1, 'La password è obbligatoria').max(200),
 });
 

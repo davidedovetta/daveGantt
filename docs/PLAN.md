@@ -124,7 +124,7 @@ POST   /projects/:id/dependencies                        DELETE /dependencies/:i
 
 1. **Ripianificazione**: spostare un predecessore in avanti spinge i successori; spostarlo indietro **non** li tira indietro (comportamento push-only). Un successore non può essere trascinato prima del vincolo: viene bloccato al limite.
 2. **Calendario**: sabato e domenica non lavorativi, nessuna festività nell'MVP; durata e lag in giorni lavorativi.
-3. **Inviti**: nell'MVP si aggiunge al workspace solo un utente già registrato (nessun invio email, nessun SMTP).
+3. **Inviti**: nell'MVP si aggiunge al workspace solo un utente già registrato (nessun invio email, nessun SMTP). Implementato così il 2026-10-07.
 4. **Lingua UI**: italiano, senza framework i18n nell'MVP.
 5. **Deploy**: non definito; l'MVP gira in locale con docker-compose. Target di deploy da decidere prima della Fase 7.
 6. **Volumi**: fino a ~2.000 task per progetto con interazione fluida (obiettivo di performance).

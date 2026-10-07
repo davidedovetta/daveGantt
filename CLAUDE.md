@@ -5,7 +5,7 @@ Scope, architettura, modello dati, fasi e assunzioni aperte: **`docs/PLAN.md`** 
 
 ## Stato
 
-Fasi 0 e 1 completate: scheletro, autenticazione (sessioni + cookie), workspace con ruoli, login/registrazione e layout nel web. Prossima: Fase 2 (progetti e vista lista).
+Fasi 0 e 1 completate: scheletro, autenticazione (sessioni + cookie), workspace con ruoli, login/registrazione e layout nel web. Condivisione dei workspace anticipata dalla Fase 6 (T6.1–T6.2: membri, ruoli, uscita, almeno un OWNER garantito con lock sulla riga `Workspace`). Prossima: Fase 2 (progetti e vista lista).
 Aggiorna questa sezione e "Comandi" quando cambiano.
 
 Backlog operativo: **`docs/TASKS.md`**. Si lavora un task alla volta, nell'ordine indicato: segna `[~]` quando inizi, `[x]` solo quando test, typecheck e lint sono verdi e il comportamento è verificato. I task con ⚠️ richiedono conferma dell'utente prima di procedere.

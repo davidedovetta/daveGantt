@@ -8,10 +8,10 @@ export const hasRole = (role: Role, minRole: Role) => ROLE_RANK[role] >= ROLE_RA
 
 /**
  * Returns the caller's role in the workspace. Non-members get 404 (existence is not
- * revealed), members below `minRole` get 403.
+ * revealed), members below `minRole` get 403. Accepts a transaction client too.
  */
 export async function requireWorkspaceRole(
-  db: Db,
+  db: Pick<Db, 'workspaceMember'>,
   userId: string,
   workspaceId: string,
   minRole: Role,

@@ -4,8 +4,7 @@ import { Button } from '../../components/ui';
 import { errorMessage } from '../../lib/api';
 import { useLogout, useMe } from '../auth/api';
 import { useCreateWorkspace, useWorkspaces } from './api';
-
-const ROLE_LABELS = { OWNER: 'Proprietario', EDITOR: 'Editor', VIEWER: 'Lettore' } as const;
+import { ROLE_LABELS } from './roles';
 
 export function AppLayout() {
   const me = useMe();

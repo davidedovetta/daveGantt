@@ -88,8 +88,8 @@ Legenda: `[ ]` da fare · `[~]` in corso · `[x]` fatto · ⚠️ dipende da un'
 
 ## Fase 6 — Collaborazione base
 
-- [ ] **T6.1** API membri: `GET /workspaces/:id/members`, aggiunta per email di utente registrato ⚠️(assunzione 3), cambio ruolo, rimozione; impedire di rimuovere l'ultimo OWNER.
-- [ ] **T6.2** Web: pagina impostazioni workspace con gestione membri (solo OWNER).
+- [x] **T6.1** API membri: `GET /workspaces/:id/members`, aggiunta per email di utente registrato ⚠️(assunzione 3), cambio ruolo, rimozione; impedire di rimuovere l'ultimo OWNER.
+- [x] **T6.2** Web: pagina impostazioni workspace con gestione membri (solo OWNER).
 - [ ] **T6.3** Assegnatario limitato ai membri del workspace (validazione server); avatar/iniziali in griglia e sulle barre.
 - [ ] **T6.4** Filtri per assegnatario e stato, ricerca per nome; i task filtrati mantengono visibili gli antenati.
 - [ ] **T6.5** Pannello dettaglio task (descrizione, stato, colore, dipendenze entranti/uscenti).
