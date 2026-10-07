@@ -5,7 +5,7 @@ Scope, architettura, modello dati, fasi e assunzioni aperte: **`docs/PLAN.md`** 
 
 ## Stato
 
-Fasi 0 e 1 completate: scheletro, autenticazione (sessioni + cookie), workspace con ruoli, login/registrazione e layout nel web. Condivisione dei workspace (T6.1–T6.2) e Fase 2 (progetti, tabella task gerarchica modificabile) completate, salvo riordino con drag (T2.14). Prossima: Fase 3 (timeline Gantt).
+Fasi 0 e 1 completate: scheletro, autenticazione (sessioni + cookie), workspace con ruoli, login/registrazione e layout nel web. Condivisione dei workspace (T6.1–T6.2) e Fase 2 (progetti, tabella task gerarchica modificabile) completate, salvo riordino con drag (T2.14). Fase 3 (timeline Gantt con zoom, drag sposta/ridimensiona) fatta in gran parte. Prossima: dipendenze (Fase 4 + frecce T5.5–T5.6).
 Aggiorna questa sezione e "Comandi" quando cambiano.
 
 Backlog operativo: **`docs/TASKS.md`**. Si lavora un task alla volta, nell'ordine indicato: segna `[~]` quando inizi, `[x]` solo quando test, typecheck e lint sono verdi e il comportamento è verificato. I task con ⚠️ richiedono conferma dell'utente prima di procedere.
@@ -82,7 +82,7 @@ Prima di dichiarare finito un task: `pnpm typecheck && pnpm lint && pnpm test` d
 - Codice, identificatori, commit e commenti in **inglese**; testi dell'interfaccia in **italiano**.
 - Schemi zod in `packages/shared` come unica fonte dei tipi di API; i tipi TS si derivano con `z.infer`.
 - Frontend: dati dal server solo tramite TanStack Query (niente fetch nei componenti); stato UI effimero in Zustand. Componenti piccoli, logica di calcolo (scala temporale, posizionamento barre, hit-testing del drag) in moduli puri testabili separati dai componenti.
-- Gantt: rendering SVG custom; griglia e timeline condividono la stessa lista di righe virtualizzata — non introdurre una seconda sorgente di righe.
+- Gantt: rendering custom (div posizionati) in `apps/web/src/features/projects/gantt/`; un unico contenitore scrollabile con colonna sinistra `sticky`. Gantt e Lista condividono righe e azioni tramite `useTaskActions` — non introdurre una seconda sorgente di righe. Calcoli di scala/drag in moduli puri testati (`scale.ts`, `drag.ts`).
 - Concorrenza: ogni update di task invia `version`; gestire `409` con refetch e messaggio all'utente.
 - Riordino con `sortKey` (fractional indexing): non rinumerare i fratelli.
 - Migrazioni Prisma sempre versionate; mai modificare una migrazione già applicata.

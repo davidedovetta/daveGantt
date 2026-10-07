@@ -54,13 +54,13 @@ Legenda: `[ ]` da fare · `[~]` in corso · `[x]` fatto · ⚠️ dipende da un'
 
 ## Fase 3 — Timeline Gantt in sola lettura
 
-- [ ] **T3.1** Spike SVAR React Gantt (mezza giornata, branch separato): verificare griglia ad albero, dipendenze, drag, personalizzazione, licenza. Decisione documentata in `docs/PLAN.md` §5.
-- [ ] **T3.2** Modulo puro scala temporale: data ↔ x per livello di zoom (giorno/settimana/mese/trimestre), range visibile, test.
-- [ ] **T3.3** Header temporale a due livelli (es. mese / giorni) coerente con lo zoom.
-- [ ] **T3.4** Layout split: griglia a sinistra, timeline a destra, divisore ridimensionabile, scroll verticale sincronizzato sulla stessa lista virtualizzata.
-- [ ] **T3.5** Rendering SVG di barre task (con avanzamento), barre gruppo, rombi milestone; colori; virtualizzazione orizzontale.
-- [ ] **T3.6** Sfondo: weekend evidenziati, linea "oggi", griglia di colonne.
-- [ ] **T3.7** Controlli zoom, "vai a oggi", scroll automatico a un task selezionato.
+- [x] **T3.1** Spike SVAR React Gantt (mezza giornata, branch separato): verificare griglia ad albero, dipendenze, drag, personalizzazione, licenza. Decisione documentata in `docs/PLAN.md` §5. — spike non necessario: implementazione SVG/DOM custom adottata e funzionante
+- [x] **T3.2** Modulo puro scala temporale: data ↔ x per livello di zoom (giorno/settimana/mese/trimestre), range visibile, test.
+- [x] **T3.3** Header temporale a due livelli (es. mese / giorni) coerente con lo zoom.
+- [~] **T3.4** Layout split: griglia a sinistra, timeline a destra, divisore ridimensionabile, scroll verticale sincronizzato sulla stessa lista virtualizzata. — split con scroll sincronizzato fatto (contenitore unico, colonna sinistra sticky); divisore ridimensionabile e virtualizzazione da fare
+- [x] **T3.5** Rendering SVG di barre task (con avanzamento), barre gruppo, rombi milestone; colori; virtualizzazione orizzontale.
+- [x] **T3.6** Sfondo: weekend evidenziati, linea "oggi", griglia di colonne.
+- [x] **T3.7** Controlli zoom, "vai a oggi", scroll automatico a un task selezionato.
 - [ ] **T3.8** Fixture/seed con 2.000 task e misura delle prestazioni di scroll; correzioni se sotto i 60 fps percepiti.
 
 ## Fase 4 — Motore di scheduling (TDD)
@@ -76,9 +76,9 @@ Legenda: `[ ]` da fare · `[~]` in corso · `[x]` fatto · ⚠️ dipende da un'
 
 ## Fase 5 — Interazioni sulla timeline
 
-- [ ] **T5.1** Modulo puro di drag: hit-testing (corpo, bordo sinistro, bordo destro, maniglia avanzamento, punto di connessione), snap al giorno, test.
-- [ ] **T5.2** Drag per spostare una barra con anteprima live (motore lato client applicato ai successori).
-- [ ] **T5.3** Ridimensionamento inizio/fine e trascinamento dell'avanzamento.
+- [x] **T5.1** Modulo puro di drag: hit-testing (corpo, bordo sinistro, bordo destro, maniglia avanzamento, punto di connessione), snap al giorno, test. — senza punto di connessione (arriva con le dipendenze)
+- [x] **T5.2** Drag per spostare una barra con anteprima live (motore lato client applicato ai successori). — anteprima dei successori arriverà con il motore di scheduling
+- [~] **T5.3** Ridimensionamento inizio/fine e trascinamento dell'avanzamento. — sposta e ridimensiona fatti; trascinamento avanzamento da fare
 - [ ] **T5.4** Commit del drag su `/schedule` con optimistic update, rollback su errore, gestione `409`.
 - [ ] **T5.5** Rendering frecce delle dipendenze (percorsi ortogonali per i 4 tipi), evidenziazione su hover.
 - [ ] **T5.6** Creazione dipendenza trascinando da un punto di connessione a un'altra barra; errore chiaro in caso di ciclo.

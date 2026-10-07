@@ -3,9 +3,10 @@ import type { KeyboardEvent } from 'react';
 
 // Inputs are uncontrolled and keyed by the server value: a new value from the server (own
 // save or a colleague's change) remounts the input, discarding any stale draft.
+// Font size is inherited from the surrounding element.
 
 const cellInput =
-  'w-full rounded border border-transparent bg-transparent px-1.5 py-1 text-sm hover:border-slate-200 focus:border-indigo-400 focus:bg-white focus:outline-none disabled:hover:border-transparent';
+  'w-full rounded border border-transparent bg-transparent px-1.5 py-1 hover:border-slate-200 focus:border-indigo-400 focus:bg-white focus:outline-none disabled:hover:border-transparent';
 
 function blurOnEnterRevertOnEscape(e: KeyboardEvent<HTMLInputElement>, original: string) {
   if (e.key === 'Enter') e.currentTarget.blur();
