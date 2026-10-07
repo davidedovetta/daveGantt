@@ -29,7 +29,11 @@ export function useLogin() {
   return useMutation({
     mutationFn: (input: LoginInput) =>
       apiRequest('POST', '/auth/login', { body: input, schema: meResponseSchema }),
-    onSuccess: ({ user }) => queryClient.setQueryData(ME_QUERY_KEY, user),
+    onSuccess: ({ user }) => {
+      // Drop anything cached for a previous user in this tab.
+      queryClient.clear();
+      queryClient.setQueryData(ME_QUERY_KEY, user);
+    },
   });
 }
 
@@ -38,7 +42,11 @@ export function useRegister() {
   return useMutation({
     mutationFn: (input: RegisterInput) =>
       apiRequest('POST', '/auth/register', { body: input, schema: meResponseSchema }),
-    onSuccess: ({ user }) => queryClient.setQueryData(ME_QUERY_KEY, user),
+    onSuccess: ({ user }) => {
+      // Drop anything cached for a previous user in this tab.
+      queryClient.clear();
+      queryClient.setQueryData(ME_QUERY_KEY, user);
+    },
   });
 }
 

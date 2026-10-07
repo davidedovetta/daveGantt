@@ -28,6 +28,8 @@ export interface AppOptions {
   cookieSecure?: boolean;
   /** Max login/register attempts per IP per minute. */
   authRateLimitMax?: number;
+  /** Trust `X-Forwarded-*` headers (only behind a reverse proxy). */
+  trustProxy?: boolean;
 }
 
 export async function buildApp({
@@ -35,8 +37,9 @@ export async function buildApp({
   logger = false,
   cookieSecure = true,
   authRateLimitMax = 10,
+  trustProxy = false,
 }: AppOptions) {
-  const app = Fastify({ logger }).withTypeProvider<ZodTypeProvider>();
+  const app = Fastify({ logger, trustProxy }).withTypeProvider<ZodTypeProvider>();
   app.setValidatorCompiler(validatorCompiler);
   app.setSerializerCompiler(serializerCompiler);
 

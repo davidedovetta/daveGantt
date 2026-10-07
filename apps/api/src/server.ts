@@ -8,6 +8,7 @@ const db = createDb(config.DATABASE_URL);
 const app = await buildApp({
   db,
   cookieSecure: config.cookieSecure,
+  trustProxy: config.TRUST_PROXY,
   logger:
     config.NODE_ENV === 'development'
       ? { level: config.LOG_LEVEL, transport: { target: 'pino-pretty' } }

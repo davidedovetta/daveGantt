@@ -37,7 +37,12 @@ export async function resolveSession(db: Db, token: string) {
   let renewedUntil: Date | undefined;
   if (session.expiresAt.getTime() - now < RENEW_BELOW_MS) {
     renewedUntil = new Date(now + SESSION_TTL_MS);
-    await db.session.update({ where: { id }, data: { expiresAt: renewedUntil } });
+    // updateMany: a concurrent logout may have deleted the row since the lookup.
+    const { count } = await db.session.updateMany({
+      where: { id },
+      data: { expiresAt: renewedUntil },
+    });
+    if (count === 0) return null;
   }
   return { user: session.user, renewedUntil };
 }

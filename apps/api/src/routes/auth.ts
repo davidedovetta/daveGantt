@@ -19,6 +19,10 @@ const emailTaken = () => new AppError(409, 'EMAIL_TAKEN', 'Esiste già un accoun
 export const authRoutes: FastifyPluginAsyncZod = async (app) => {
   const rateLimit = { max: app.authRateLimitMax, timeWindow: '1 minute' };
 
+  app.addHook('onSend', async (_request, reply) => {
+    reply.header('cache-control', 'no-store');
+  });
+
   app.post(
     '/auth/register',
     {

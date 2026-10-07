@@ -8,6 +8,8 @@ const configSchema = z.object({
   LOG_LEVEL: z.enum(['fatal', 'error', 'warn', 'info', 'debug', 'trace', 'silent']).default('info'),
   // Defaults to true in production. Safari rejects Secure cookies on http://localhost.
   COOKIE_SECURE: z.stringbool().optional(),
+  // Set to true behind a reverse proxy so request.ip (used by rate limiting) is the client IP.
+  TRUST_PROXY: z.stringbool().default(false),
 });
 
 export type Config = z.infer<typeof configSchema> & { cookieSecure: boolean };

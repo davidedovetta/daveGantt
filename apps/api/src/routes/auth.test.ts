@@ -138,6 +138,29 @@ describe('auth routes', () => {
     });
   });
 
+  it('rate limits per client IP when behind a trusted proxy', async () => {
+    const proxied = await buildTestApp({ authRateLimitMax: 1, trustProxy: true });
+    try {
+      const attempt = (ip: string) =>
+        proxied.inject({
+          method: 'POST',
+          url: '/auth/login',
+          headers: { ...csrfHeaders, 'x-forwarded-for': ip },
+          payload: { email: 'nobody@example.com', password: 'x' },
+        });
+      expect((await attempt('203.0.113.1')).statusCode).toBe(401);
+      expect((await attempt('203.0.113.2')).statusCode).toBe(401);
+      expect((await attempt('203.0.113.1')).statusCode).toBe(429);
+    } finally {
+      await proxied.close();
+    }
+  });
+
+  it('marks auth responses as not cacheable', async () => {
+    const res = await app.inject({ method: 'GET', url: '/auth/me' });
+    expect(res.headers['cache-control']).toBe('no-store');
+  });
+
   describe('session lifecycle', () => {
     it('GET /auth/me returns the current user', async () => {
       const { user, cookies } = await registerUser(app);
