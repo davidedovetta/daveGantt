@@ -9,7 +9,8 @@
     "typecheck": "tsc -p tsconfig.json",
     "db:migrate": "prisma migrate dev",
     "db:reset": "prisma migrate reset --force",
-    "db:generate": "prisma generate"
+    "db:generate": "prisma generate",
+    "db:deploy": "prisma migrate deploy"
   },
   "dependencies": {
     "@davegantt/shared": "workspace:*",

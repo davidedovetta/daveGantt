@@ -38,7 +38,9 @@ pnpm test:e2e            # Playwright (da aggiungere in Fase 5)
 pnpm lint
 pnpm typecheck
 pnpm format
-pnpm db:migrate          # prisma migrate dev
+pnpm db:generate         # client Prisma
+pnpm db:deploy           # applica migrazioni esistenti
+pnpm db:migrate          # prisma migrate dev (nuove migrazioni)
 ```
 
 - Vite ascolta su `localhost` (IPv6 `::1`): usare `http://localhost:5173`, non `127.0.0.1`.
