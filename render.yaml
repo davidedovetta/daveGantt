@@ -1,12 +1,6 @@
-# Render Blueprint: one web service (API + web app) and a managed PostgreSQL, in Frankfurt.
+# Render Blueprint: one free web service (API + web app) in Frankfurt.
+# The database is external (Neon free tier, see README): Render asks for DATABASE_URL on setup.
 # On render.com: New → Blueprint → select this repository.
-databases:
-  - name: davegantt-db
-    region: frankfurt
-    plan: free # free databases expire after 30 days: switch to a paid plan before storing real data
-    databaseName: davegantt
-    user: davegantt
-
 services:
   - type: web
     name: davegantt
@@ -18,9 +12,7 @@ services:
     autoDeploy: true
     envVars:
       - key: DATABASE_URL
-        fromDatabase:
-          name: davegantt-db
-          property: connectionString
+        sync: false # entered in the Render dashboard, never committed
       - key: TRUST_PROXY
         value: 'true'
       - key: LOG_LEVEL

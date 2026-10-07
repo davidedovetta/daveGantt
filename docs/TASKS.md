@@ -102,4 +102,4 @@ Legenda: `[ ]` da fare · `[~]` in corso · `[x]` fatto · ⚠️ dipende da un'
 - [ ] **T7.3** Accessibilità base: navigazione da tastiera nella griglia, focus visibile, contrasto, label sui controlli.
 - [~] **T7.4** Revisione sicurezza: header HTTP (helmet), CORS, scadenza e rotazione sessioni, audit dipendenze npm. — helmet/CSP fatti; CORS non necessario (stessa origine)
 - [ ] **T7.5** Ripetere la misura prestazioni con 2.000 task e dipendenze; ottimizzare il rendering delle frecce se necessario.
-- [x] **T7.6** ⚠️ Decidere il target di deploy (assunzione 5) e preparare Dockerfile/configurazione di conseguenza. — Render (Docker + Postgres gestito), deciso il 2026-10-07
+- [x] **T7.6** ⚠️ Decidere il target di deploy (assunzione 5) e preparare Dockerfile/configurazione di conseguenza. — Render free (Docker) + Neon free (Postgres), deciso il 2026-10-07

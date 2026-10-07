@@ -83,28 +83,37 @@ Per provare da solo con due utenti usa una finestra normale e una anonima del br
 - **Usa `localhost`, non `127.0.0.1`**: Vite risponde solo su `localhost`.
 - **`Cannot find module './generated/prisma/client.js'`** → esegui `pnpm db:generate`.
 
-## Pubblicazione online (Render)
+## Pubblicazione online (gratuita): Neon + Render
 
-Il repository contiene un `Dockerfile` (un solo servizio: API su `/api` e interfaccia sullo
-stesso indirizzo) e un `render.yaml` che descrive servizio e database.
+- **Database: [Neon](https://neon.tech)**, PostgreSQL gestito con piano gratuito senza
+  scadenza (0,5 GB). Si sospende quando non è usato e riparte in meno di un secondo.
+- **App: [Render](https://render.com)**, servizio web gratuito da `Dockerfile` +
+  `render.yaml`. Un solo servizio: API su `/api` e interfaccia sullo stesso indirizzo.
 
-1. Crea un account su https://render.com (puoi entrare con GitHub).
-2. **New → Blueprint**, autorizza l'accesso al repository `davegantt` e selezionalo.
-3. Render legge `render.yaml` e propone: servizio web `davegantt` + database PostgreSQL
-   `davegantt-db`, regione Francoforte. Clicca **Apply**.
+### 1. Database su Neon
+
+1. Registrati su https://neon.tech e crea un progetto: nome `davegantt`, PostgreSQL 17,
+   regione **AWS Europe Central 1 (Frankfurt)**.
+2. Nella dashboard clicca **Connect**, disattiva **Connection pooling** e copia la
+   connection string. Ha questa forma:
+   `postgresql://neondb_owner:…@ep-….eu-central-1.aws.neon.tech/neondb?sslmode=require`
+3. Se termina con `&channel_binding=require`, togli quella parte (lascia `?sslmode=require`).
+
+### 2. App su Render
+
+1. Registrati su https://render.com con GitHub.
+2. **New → Blueprint**, autorizza l'accesso al repository `daveGantt` e selezionalo.
+3. Render legge `render.yaml` e chiede il valore di `DATABASE_URL`: incolla la stringa
+   di Neon. Clicca **Apply**.
 4. Al termine del primo build (alcuni minuti) l'app è su `https://davegantt.onrender.com`
-   (o un nome simile mostrato da Render). Le migrazioni del database partono da sole.
+   (o un nome simile mostrato da Render). Le tabelle vengono create da sole al primo avvio.
 5. Condividi il link: i colleghi si registrano e li aggiungi con **Condividi**.
 
-Ogni push su `main` ripubblica l'app automaticamente.
+Ogni push su `main` ripubblica l'app automaticamente; i dati restano su Neon.
 
-**Piani gratuiti, da sapere:**
-
-- il servizio web gratuito si addormenta dopo 15 minuti senza visite: la prima apertura
-  successiva impiega circa un minuto;
-- il database gratuito **scade dopo 30 giorni** e i dati vengono cancellati. Prima di
-  inserire dati veri, in Render passa il database a un piano a pagamento (e il servizio a
-  "Starter" se vuoi evitare l'attesa iniziale).
+**Da sapere:** il servizio web gratuito si addormenta dopo 15 minuti senza visite, quindi la
+prima apertura successiva impiega circa un minuto. Per evitarlo, passa il servizio al piano
+"Starter" su Render.
 
 Per provare l'immagine di produzione in locale:
 
