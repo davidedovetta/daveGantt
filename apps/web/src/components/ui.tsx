@@ -52,3 +52,12 @@ export function FullPageMessage({ children }: { children: ReactNode }) {
     </div>
   );
 }
+
+/** Marks the app as a beta release next to the product name. */
+export function BetaBadge() {
+  return (
+    <span className="rounded-full bg-amber-100 px-1.5 py-0.5 align-middle text-[10px] font-semibold tracking-wide text-amber-800 uppercase">
+      Beta
+    </span>
+  );
+}

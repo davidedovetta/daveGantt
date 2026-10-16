@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router';
-import { Button } from '../../components/ui';
+import { BetaBadge, Button } from '../../components/ui';
 import { errorMessage } from '../../lib/api';
 import { useLogout, useMe } from '../auth/api';
 import { useCreateWorkspace, useWorkspaces } from './api';
@@ -14,7 +14,9 @@ export function AppLayout() {
   return (
     <div className="flex h-screen bg-white text-slate-900">
       <aside className="flex w-64 shrink-0 flex-col border-r border-slate-200 bg-slate-50">
-        <div className="px-4 py-4 text-lg font-semibold text-indigo-600">daveGantt</div>
+        <div className="flex items-center gap-2 px-4 py-4 text-lg font-semibold text-indigo-600">
+          daveGantt <BetaBadge />
+        </div>
         <WorkspaceNav />
         <div className="mt-auto border-t border-slate-200 p-4">
           <p className="truncate text-sm font-medium">{me.data?.name}</p>
