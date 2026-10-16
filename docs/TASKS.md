@@ -48,7 +48,7 @@ Legenda: `[ ]` da fare · `[~]` in corso · `[x]` fatto · ⚠️ dipende da un'
 - [~] **T2.11** Web: griglia virtualizzata (TanStack Virtual) con colonne nome, inizio, fine, durata, avanzamento, assegnatario; indentazione per livello; expand/collapse. — tabella fatta, virtualizzazione rimandata a T3.4
 - [x] **T2.12** Web: editing inline delle celle (testo, date picker, numero %, select assegnatario), con conferma su Invio / annulla su Esc.
 - [x] **T2.13** Web: aggiunta task/gruppo/milestone, eliminazione con conferma, indent/outdent (Tab / Shift+Tab).
-- [ ] **T2.14** Web: riordino righe con drag (dnd-kit) → `move`.
+- [x] **T2.14** Web: riordino righe con drag (dnd-kit) → `move`. — drag & drop HTML nativo (maniglia ⋮⋮) in Gantt e Lista, più Alt+↑/↓
 - [~] **T2.15** Web: CRUD progetti dalla sidebar (crea, rinomina, colore, archivia). — crea/rinomina/archivia fatti (dalla pagina workspace e progetto), colore automatico; cambio colore da UI da fare
 - [x] **T2.16** Web: modalità sola lettura per VIEWER (controlli disabilitati; il server resta l'unico garante).
 

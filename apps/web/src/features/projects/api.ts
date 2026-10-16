@@ -1,4 +1,5 @@
 import {
+  keyAfter,
   projectDetailSchema,
   projectListSchema,
   projectSchema,
@@ -136,10 +137,42 @@ export const useCreateTask = (projectId: string) =>
     apiRequest('POST', `/projects/${projectId}/tasks`, { body: input, schema: taskSchema }),
   );
 
-export const useMoveTask = (projectId: string) =>
-  useProjectMutation(projectId, ({ taskId, ...input }: MoveTaskInput & { taskId: string }) =>
-    apiRequest('POST', `/tasks/${taskId}/move`, { body: input, schema: taskSchema }),
-  );
+/**
+ * Moves a task (reorder, indent, outdent). The row moves immediately: the new sort key is
+ * computed with the same function the server uses; the project is re-fetched afterwards.
+ */
+export function useMoveTask(projectId: string) {
+  const queryClient = useQueryClient();
+  const key = projectKey(projectId);
+  return useMutation({
+    scope: { id: `tasks-${projectId}` },
+    mutationFn: ({ taskId, ...input }: MoveTaskInput & { taskId: string }) =>
+      apiRequest('POST', `/tasks/${taskId}/move`, { body: input, schema: taskSchema }),
+    onMutate: async ({ taskId, parentId, afterId }) => {
+      await queryClient.cancelQueries({ queryKey: key });
+      const previous = queryClient.getQueryData<ProjectDetail>(key);
+      if (previous) {
+        const siblings = previous.tasks.filter((t) => t.parentId === parentId && t.id !== taskId);
+        const afterKey = afterId === null ? null : siblings.find((t) => t.id === afterId)?.sortKey;
+        if (afterKey !== undefined) {
+          const sortKey = keyAfter(
+            siblings.map((t) => t.sortKey),
+            afterKey,
+          );
+          queryClient.setQueryData<ProjectDetail>(
+            key,
+            (old) => old && replaceTask(old, taskId, (t) => ({ ...t, parentId, sortKey })),
+          );
+        }
+      }
+      return { previous };
+    },
+    onError: (_err, _vars, context) => {
+      if (context?.previous) queryClient.setQueryData(key, context.previous);
+    },
+    onSettled: () => queryClient.invalidateQueries({ queryKey: key }),
+  });
+}
 
 export const useDeleteTask = (projectId: string) =>
   useProjectMutation(projectId, (taskId: string) => apiRequest('DELETE', `/tasks/${taskId}`));

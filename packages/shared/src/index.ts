@@ -5,5 +5,6 @@ export * from './health.js';
 export * from './members.js';
 export * from './projects.js';
 export * from './scheduling/index.js';
+export * from './sort-keys.js';
 export * from './tasks.js';
 export * from './workspaces.js';

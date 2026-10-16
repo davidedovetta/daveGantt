@@ -1,7 +1,7 @@
 import { workingDaysBetween, type Member } from '@davegantt/shared';
 import { DateCell, ProgressCell } from './cells';
 import type { Row } from './rows';
-import { IconButton, NameCell, ReadOnlyDate } from './TaskParts';
+import { DROP_ROW_CLASSES, IconButton, NameCell, ReadOnlyDate } from './TaskParts';
 import type { TaskActions } from './useTaskActions';
 
 export function TaskTable({
@@ -75,7 +75,8 @@ function TaskRow({
 
   return (
     <tr
-      className={`group border-t border-slate-100 hover:bg-slate-50/70 ${hasChildren ? 'font-semibold' : ''}`}
+      {...(canEdit ? actions.dropZoneProps(task) : {})}
+      className={`group border-t border-slate-100 hover:bg-slate-50/70 ${hasChildren ? 'font-semibold' : ''} ${DROP_ROW_CLASSES}`}
     >
       <td className="px-2 py-1 text-right text-xs font-normal text-slate-400 tabular-nums">
         {index}

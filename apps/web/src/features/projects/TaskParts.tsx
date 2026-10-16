@@ -18,7 +18,18 @@ export function NameCell({
   const { task, depth, hasChildren } = row;
   const collapsed = actions.collapsed.has(task.id);
   return (
-    <div className="flex min-w-0 flex-1 items-center gap-1" style={{ paddingLeft: depth * 18 }}>
+    <div className="flex min-w-0 flex-1 items-center gap-1">
+      {canEdit && (
+        <span
+          {...actions.dragHandleProps(task)}
+          title="Trascina per riordinare (oppure Alt+↑ / Alt+↓ nel nome)"
+          aria-hidden
+          className="flex w-3 shrink-0 cursor-grab justify-center text-slate-300 select-none hover:text-slate-600 active:cursor-grabbing"
+        >
+          ⋮⋮
+        </span>
+      )}
+      <span className="shrink-0" style={{ width: depth * 18 }} />
       {hasChildren ? (
         <button
           type="button"
@@ -46,7 +57,14 @@ export function NameCell({
         className={hasChildren ? 'font-semibold' : ''}
         onCommit={(name) => actions.update(task.id, { name })}
         onKeyDown={(e) => {
-          if (!canEdit || e.key !== 'Tab') return;
+          if (!canEdit) return;
+          if (e.altKey && (e.key === 'ArrowUp' || e.key === 'ArrowDown')) {
+            e.preventDefault();
+            if (e.key === 'ArrowUp') actions.moveUp(task);
+            else actions.moveDown(task);
+            return;
+          }
+          if (e.key !== 'Tab') return;
           e.preventDefault();
           e.currentTarget.blur();
           if (e.shiftKey) actions.outdent(task);
@@ -146,3 +164,7 @@ export function AddTaskForm({
     </form>
   );
 }
+
+/** Row classes for drag and drop: dims the dragged row, draws the insertion line on its cells. */
+export const DROP_ROW_CLASSES =
+  'data-[dragging=true]:opacity-40 data-[drop=after]:*:shadow-[inset_0_-2px_0_0_#6366f1] data-[drop=before]:*:shadow-[inset_0_2px_0_0_#6366f1]';

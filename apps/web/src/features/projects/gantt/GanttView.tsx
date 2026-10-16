@@ -2,7 +2,7 @@ import { addDays, todayLocal } from '@davegantt/shared';
 import { useEffect, useMemo, useRef, useState, type PointerEvent } from 'react';
 import { DateCell } from '../cells';
 import type { Row } from '../rows';
-import { IconButton, NameCell, ReadOnlyDate } from '../TaskParts';
+import { DROP_ROW_CLASSES, IconButton, NameCell, ReadOnlyDate } from '../TaskParts';
 import type { TaskActions } from '../useTaskActions';
 import { applyDrag, daysFromPixels, type DateRange, type DragMode } from './drag';
 import {
@@ -111,7 +111,12 @@ export function GanttView({
           <div className="relative">
             <TimelineBackground scale={scale} today={today} height={bodyHeight} zoom={zoom} />
             {rows.map((row) => (
-              <div key={row.task.id} className="group flex" style={{ height: ROW_HEIGHT }}>
+              <div
+                key={row.task.id}
+                {...(canEdit ? actions.dropZoneProps(row.task) : {})}
+                className={`group flex ${DROP_ROW_CLASSES}`}
+                style={{ height: ROW_HEIGHT }}
+              >
                 <LeftCells row={row} actions={actions} canEdit={canEdit} />
                 <div
                   className="relative border-b border-slate-100 group-hover:bg-indigo-50/30"

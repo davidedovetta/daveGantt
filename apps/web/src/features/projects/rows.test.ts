@@ -1,6 +1,13 @@
 import type { Task } from '@davegantt/shared';
 import { describe, expect, it } from 'vitest';
-import { buildRows, childrenByParent, indentTarget, outdentTarget } from './rows';
+import {
+  buildRows,
+  childrenByParent,
+  dropTarget,
+  indentTarget,
+  outdentTarget,
+  stepTarget,
+} from './rows';
 
 let n = 0;
 const task = (
@@ -81,5 +88,75 @@ describe('indent / outdent targets', () => {
   it('outdents to right after the parent', () => {
     expect(outdentTarget(byId.get('A1')!, byId)).toEqual({ parentId: null, afterId: 'A' });
     expect(outdentTarget(byId.get('A')!, byId)).toBeNull();
+  });
+});
+
+describe('dropTarget', () => {
+  const children = childrenByParent(tasks);
+  const byId = new Map(tasks.map((t) => [t.id, t]));
+  const get = (id: string) => byId.get(id)!;
+  // Root order: Z, A (A1, A2), B
+
+  it('places the task before or after the target, as its sibling', () => {
+    expect(dropTarget(get('B'), get('Z'), 'before', children, byId)).toEqual({
+      parentId: null,
+      afterId: null,
+    });
+    expect(dropTarget(get('Z'), get('B'), 'after', children, byId)).toEqual({
+      parentId: null,
+      afterId: 'B',
+    });
+    expect(dropTarget(get('B'), get('A2'), 'before', children, byId)).toEqual({
+      parentId: 'A',
+      afterId: 'A1',
+    });
+  });
+
+  it('moves out of a parent when dropped next to a task of another level', () => {
+    expect(dropTarget(get('A1'), get('B'), 'after', children, byId)).toEqual({
+      parentId: null,
+      afterId: 'B',
+    });
+  });
+
+  it('skips the dragged task itself when computing "before"', () => {
+    // Z is right before A: dropping Z before B means after A.
+    expect(dropTarget(get('Z'), get('B'), 'before', children, byId)).toEqual({
+      parentId: null,
+      afterId: 'A',
+    });
+  });
+
+  it('drops right below an expanded summary as its first subtask', () => {
+    expect(dropTarget(get('B'), get('A'), 'after', children, byId, true)).toEqual({
+      parentId: 'A',
+      afterId: null,
+    });
+    expect(dropTarget(get('Z'), get('A'), 'after', children, byId, false)).toEqual({
+      parentId: null,
+      afterId: 'A',
+    });
+  });
+
+  it('rejects drops onto itself or its own subtree', () => {
+    expect(dropTarget(get('A'), get('A'), 'after', children, byId)).toBeNull();
+    expect(dropTarget(get('A'), get('A1'), 'before', children, byId)).toBeNull();
+  });
+
+  it('returns null when nothing would change', () => {
+    expect(dropTarget(get('A'), get('Z'), 'after', children, byId)).toBeNull();
+    expect(dropTarget(get('A'), get('B'), 'before', children, byId)).toBeNull();
+  });
+});
+
+describe('stepTarget', () => {
+  const children = childrenByParent(tasks);
+  const byId = new Map(tasks.map((t) => [t.id, t]));
+  it('moves one position among siblings and stops at the edges', () => {
+    expect(stepTarget(byId.get('B')!, 'up', children)).toEqual({ parentId: null, afterId: 'Z' });
+    expect(stepTarget(byId.get('A')!, 'up', children)).toEqual({ parentId: null, afterId: null });
+    expect(stepTarget(byId.get('Z')!, 'up', children)).toBeNull();
+    expect(stepTarget(byId.get('A1')!, 'down', children)).toEqual({ parentId: 'A', afterId: 'A2' });
+    expect(stepTarget(byId.get('B')!, 'down', children)).toBeNull();
   });
 });

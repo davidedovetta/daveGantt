@@ -1,4 +1,5 @@
 import {
+  compareKeys,
   createProjectInputSchema,
   PROJECT_COLORS,
   projectDetailSchema,
@@ -11,7 +12,6 @@ import { z } from 'zod';
 import { requireUser } from '../auth/plugin.js';
 import { requireProjectRole, requireWorkspaceRole } from '../authz.js';
 import type { Project } from '../generated/prisma/client.js';
-import { compareKeys } from '../sort-keys.js';
 import { toTaskDto } from './tasks.js';
 
 const workspaceParams = z.object({ workspaceId: z.uuid() });

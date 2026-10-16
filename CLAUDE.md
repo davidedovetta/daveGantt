@@ -13,7 +13,7 @@ Backlog operativo: **`docs/TASKS.md`**. Si lavora un task alla volta, nell'ordin
 ## Stack
 
 - Monorepo **pnpm workspaces**, TypeScript `strict` ovunque.
-- `apps/web`: React 19, Vite, React Router, TanStack Query (server state), Zustand (UI state), TanStack Virtual, Tailwind + Radix/shadcn, dnd-kit (solo riordino righe in griglia).
+- `apps/web`: React 19, Vite, React Router, TanStack Query (server state), Zustand (UI state), TanStack Virtual, Tailwind + Radix/shadcn. Riordino righe con drag & drop HTML nativo (`dragHandleProps`/`dropZoneProps` in `useTaskActions`), senza librerie.
 - `apps/api`: Node LTS, Fastify con type provider zod, Prisma, PostgreSQL.
 - `packages/shared`: schemi zod, tipi condivisi, motore di scheduling.
 - Test: Vitest (unit + integrazione API su Postgres reale), Playwright (E2E).
@@ -65,7 +65,7 @@ Prima di dichiarare finito un task: `pnpm typecheck && pnpm lint && pnpm test` d
 - Durate e lag sono in **giorni lavorativi** (sab/dom esclusi nell'MVP).
 - Il **motore di scheduling** vive solo in `packages/shared/scheduling`, è composto da funzioni pure senza I/O ed è l'unica implementazione: il client lo usa per l'anteprima, il server per il risultato autorevole. Non duplicare logica di scheduling in web o api.
 - Non esiste un tipo `GROUP`: un task con sottotask è un riepilogo, con date e avanzamento derivati dai figli (`rollup` in `packages/shared/scheduling`); l'API rifiuta modifiche dirette a date/avanzamento dei riepiloghi (`SUMMARY_READ_ONLY`).
-- `sortKey` (fractional indexing) si confronta byte per byte in JS (`compareKeys`): non usare `ORDER BY sortKey`, la collation di Postgres lo ordina male.
+- `sortKey` (fractional indexing, `keyAfter`/`compareKeys` in `packages/shared/src/sort-keys.ts`, usati da API e web) si confronta byte per byte in JS (`compareKeys`): non usare `ORDER BY sortKey`, la collation di Postgres lo ordina male.
 - Le dipendenze non possono formare cicli: validare lato server prima di salvare.
 - Le regole di ripianificazione e le altre assunzioni aperte sono in `docs/PLAN.md` §7: non cambiarle né inventarne di nuove senza chiedere.
 

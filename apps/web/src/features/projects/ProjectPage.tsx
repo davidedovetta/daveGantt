@@ -124,8 +124,9 @@ function ProjectView({ detail, isRefreshing }: { detail: ProjectDetail; isRefres
       {canEdit && <AddTaskForm projectId={project.id} onError={actions.reportError} />}
       {canEdit && tasks.length > 0 && (
         <p className="text-xs text-slate-400">
-          Nel nome di un task, Tab lo rende sottotask del precedente e Maiusc+Tab lo riporta al
-          livello superiore. Le modifiche dei colleghi compaiono entro 20 secondi.
+          Trascina ⋮⋮ per riordinare i task. Nel nome di un task: Tab lo rende sottotask del
+          precedente, Maiusc+Tab lo riporta al livello superiore, Alt+↑ / Alt+↓ lo spostano. Le
+          modifiche dei colleghi compaiono entro 20 secondi.
         </p>
       )}
     </div>

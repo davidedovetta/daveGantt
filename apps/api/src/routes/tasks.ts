@@ -2,6 +2,7 @@ import {
   apiErrorSchema,
   compareDates,
   createTaskInputSchema,
+  keyAfter,
   moveTaskInputSchema,
   taskSchema,
   updateTaskInputSchema,
@@ -14,7 +15,6 @@ import { fromDbDate, toDbDate } from '../dates.js';
 import { AppError, notFound } from '../errors.js';
 import type { Db } from '../db.js';
 import type { Task } from '../generated/prisma/client.js';
-import { keyAfter } from '../sort-keys.js';
 
 const projectParams = z.object({ projectId: z.uuid() });
 const taskParams = z.object({ taskId: z.uuid() });
